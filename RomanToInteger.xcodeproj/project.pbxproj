@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CD1AFD02AE1B4B8000D627B /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD1AFCF2AE1B4B8000D627B /* UIView+Extensions.swift */; };
 		E63F44A12ADA90D000B7E657 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63F44A02ADA90D000B7E657 /* AppDelegate.swift */; };
 		E63F44A32ADA90D000B7E657 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63F44A22ADA90D000B7E657 /* SceneDelegate.swift */; };
 		E63F44A52ADA90D000B7E657 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63F44A42ADA90D000B7E657 /* ViewController.swift */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2CD1AFCF2AE1B4B8000D627B /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		E63F449D2ADA90D000B7E657 /* RomanToInteger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RomanToInteger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E63F44A02ADA90D000B7E657 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E63F44A22ADA90D000B7E657 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +78,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2CD1AFCE2AE1B4A5000D627B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2CD1AFCF2AE1B4B8000D627B /* UIView+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		E63F44942ADA90D000B7E657 = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +109,7 @@
 		E63F449F2ADA90D000B7E657 /* RomanToInteger */ = {
 			isa = PBXGroup;
 			children = (
+				2CD1AFCE2AE1B4A5000D627B /* Extensions */,
 				E63F44A02ADA90D000B7E657 /* AppDelegate.swift */,
 				E63F44A22ADA90D000B7E657 /* SceneDelegate.swift */,
 				E63F44A42ADA90D000B7E657 /* ViewController.swift */,
@@ -260,6 +271,7 @@
 			files = (
 				E63F44A52ADA90D000B7E657 /* ViewController.swift in Sources */,
 				E63F44A12ADA90D000B7E657 /* AppDelegate.swift in Sources */,
+				2CD1AFD02AE1B4B8000D627B /* UIView+Extensions.swift in Sources */,
 				E63F44A32ADA90D000B7E657 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,6 +454,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3VN8SLU4GS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RomanToInteger/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -469,6 +482,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R48U66TKQH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RomanToInteger/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
