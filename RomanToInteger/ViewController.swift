@@ -5,28 +5,57 @@
 //  Created by Ali Çolak on 14.10.2023.
 //
 
+/**
+Some notes,
+
+ - Don't use force unwrap, I mean dont use "somethink!". It may cause crash.
+ - Use constants for constants. It's easy to read and edit. Just advice :)
+ - Be ceraful about access modifiers which private, public etc. Lot's of peoplo eliminate on cases because of it.
+ - Use extensions.
+ - Some of components lazy some of not. Why? Be consistent.
+ - Pay attention about spaces. Lots of unnecessary empty line.
+
+ I know you are a student and try to improve yourself. But these are important thinks. I don't mean to be rude.
+ I saw it while casually browsing Github in the evening and wanted to contribute.
+
+ Just some advices from someone who experienced.
+ Take care and good luck.
+
+ Said Çankıran.
+ */
+
 import UIKit
 
 class ViewController: UIViewController {
+
+    enum Constants: String {
+        case headerLabelText = "Roman Numeral Converter"
+        case romanNumberPlaceHolder = "Please type the roman number to convert"
+        case buttonTitle = "Convert"
+        case favoriteButtonImageName = "star.fill"
+        case dictionaryKey = "romanToIntegerDictionaryKey"
+        case letterValidationError = "Please enter true letters"
+        case numberValidationError = "Please enter less than 4000"
+        case romanFormatValidationError = "Please enter true roman formats"
+    }
     
     var numberReturn: String = ""
     var numberRoman: String = ""
     let defaults = UserDefaults.standard
     var romanToIntegerDictionary = [String: String]()
 
-    private var headerLabel : UILabel = {
+    private lazy var headerLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Roman Numeral Converter"
+        label.text = Constants.headerLabelText.rawValue
         return label
     }()
     
     
-    let romanNumberTF : UITextField = {
+    private lazy var romanNumberTF : UITextField = {
         var tf = UITextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
-        
-        tf.placeholder = "Please type the roman number to convert"
+        tf.placeholder = Constants.romanNumberPlaceHolder.rawValue
         tf.keyboardType = .decimalPad
         return tf
     }()
@@ -35,14 +64,14 @@ class ViewController: UIViewController {
     private lazy var calculateButton : UIButton = {
         let button = UIButton()
         button.backgroundColor = .cyan
-        button.setTitle("Convert", for: .normal)
+        button.setTitle(Constants.buttonTitle.rawValue, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(convert), for: .touchUpInside)
         return button
     }()
     
     
-    private var responseLabel : UILabel = {
+    private lazy var responseLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -51,7 +80,7 @@ class ViewController: UIViewController {
     
     private lazy var saveToFavoritesButton : UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "star.fill")?.withTintColor(.yellow, renderingMode: .alwaysTemplate), for: .normal)
+        button.setImage(UIImage(systemName: Constants.favoriteButtonImageName.rawValue)?.withTintColor(.yellow, renderingMode: .alwaysTemplate), for: .normal)
         button.addTarget(self, action: #selector(saveToFavorites), for: .touchUpInside)
         return button
     }()
@@ -59,22 +88,24 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let savedDictionary = defaults.dictionary(forKey: "romanToIntegerDictionaryKey") as? [String: String] {
-                    print("Roman to Integer Dictionary: \(savedDictionary)")
-                } else {
-                    print("Roman to Integer Dictionary bulunamadı.")
-                }
-   
-                
         initialConfig()
-        
-        
-        
+        checkRomanToIntegerDictionary()
+    }
+
+    override func viewDidLayoutSubviews() {
+        setConstraints()
     }
 
 
-    @objc
-    func convert(){
+    private func checkRomanToIntegerDictionary() {
+        if let savedDictionary = defaults.dictionary(forKey: Constants.dictionaryKey.rawValue) as? [String: String] {
+            print("Roman to Integer Dictionary: \(savedDictionary)")
+        } else {
+            print("Roman to Integer Dictionary bulunamadı.")
+        }
+    }
+
+    @objc private func convert(){
         guard let romanString = romanNumberTF.text else { return }
         numberRoman = romanString
         let responseText = findFromRomanToInteger(romanString)
@@ -82,81 +113,63 @@ class ViewController: UIViewController {
         DispatchQueue.main.async {
             self.responseLabel.text = responseText
             self.addFavorite(key: self.numberReturn, value: self.numberRoman)
-            if let savedDictionary = self.defaults.dictionary(forKey: "romanToIntegerDictionaryKey") as? [String: String] {
-                        print("Roman to Integer Dictionary: \(savedDictionary)")
-                    } else {
-                        print("Roman to Integer Dictionary bulunamadı.")
-                    }
+            if let savedDictionary = self.defaults.dictionary(forKey: Constants.dictionaryKey.rawValue) as? [String: String] {
+                print("Roman to Integer Dictionary: \(savedDictionary)")
+            } else {
+                print("Roman to Integer Dictionary bulunamadı.")
+            }
         }
-        
     }
     
-    @objc
-    func saveToFavorites(){
-       
+    @objc private func saveToFavorites() {
+
     }
-    
-    
-    func findFromRomanToInteger (_ roman : String) -> String {
-        
+}
+
+private extension ViewController {
+    func findFromRomanToInteger(_ roman : String) -> String {
         if !isValidateLetters(roman) {
-            return "Please enter true letters"
+            return Constants.letterValidationError.rawValue
         }
         
         let number = convertRomanToInteger(roman)
-        
-        
         if number >= 4000 {
-            return "Please enter less than 4000"
+            return Constants.numberValidationError.rawValue
         }
-        
-        
-        if !isValidateRoman (roman,number) {
-            return "Please enter true roman formats"
+
+        if !isValidateRoman(roman,number) {
+            return Constants.romanFormatValidationError.rawValue
         }
         
         numberReturn = String(number)
         return numberReturn
-        
     }
 
-    
-    
-    override func viewDidLayoutSubviews() {
-        setConstraints()
-    }
-    
     func addFavorite(key: String, value: String) {
-            if let savedDictionary = defaults.dictionary(forKey: "romanToIntegerDictionaryKey") as? [String: String] {
+            if let savedDictionary = defaults.dictionary(forKey: Constants.dictionaryKey.rawValue) as? [String: String] {
                 romanToIntegerDictionary = savedDictionary
             } else {
                 print("Roman to Integer Dictionary bulunamadı.")
             }
             
             romanToIntegerDictionary[key] = value
-            defaults.removeObject(forKey: "romanToIntegerDictionaryKey")
-            defaults.set(romanToIntegerDictionary, forKey: "romanToIntegerDictionaryKey")
+            defaults.removeObject(forKey: Constants.dictionaryKey.rawValue)
+            defaults.set(romanToIntegerDictionary, forKey: Constants.dictionaryKey.rawValue)
             
     }
 
     func convertRomanToInteger(_ roman : String) -> Int {
-        
         let romanDictiniory : [Character:Int] = ["I":1,"V":5,"X":10,"L":50,"C":100,"D":500,"M":1000]
-        
         var sum = 0
-        
+
         for (index,item) in roman.enumerated() {
-            
             let startIndex = roman.index(roman.startIndex, offsetBy: index)
 
-            let firstItem = romanDictiniory[item]!
-            
-            if index != roman.count - 1 {
-                
-                let nextIndex = roman.index(after: startIndex)
-                
-                let nextChar = Character(String(roman[nextIndex]))
+            guard let firstItem = romanDictiniory[item] else { return -1 }
 
+            if index != roman.count - 1 {
+                let nextIndex = roman.index(after: startIndex)
+                let nextChar = Character(String(roman[nextIndex]))
                 let secondItem = romanDictiniory[nextChar]!
                 
                 if firstItem < secondItem {
@@ -164,52 +177,29 @@ class ViewController: UIViewController {
                 } else {
                     sum += firstItem
                 }
-                
-                
             } else {
                 sum += firstItem
             }
-            
-            
-            
         }
-        
         return sum
-        
     }
 
 
     func isValidateLetters (_ roman : String) -> Bool {
-        
-        var isValidate : Bool = true
-        
         let letters = ["I","V","X","L","C","D","M"]
-        
-        for item in roman {
-            if !letters.contains(String(item)) {
-                return false
-            }
+        var isValidated = false
+        roman.forEach { item in
+            isValidated = letters.contains(String(item))
         }
-        
-        return isValidate
-        
+
+        return isValidated
     }
 
-    func isValidateRoman (_ roman : String, _ number : Int) -> Bool {
-        
-        let trueRoman = convertIntegerToRoman(number)
-        
-        if trueRoman != roman {
-            return false
-        } else {
-            return true
-        }
-        
+    func isValidateRoman (_ roman: String, _ number: Int) -> Bool {
+        return convertIntegerToRoman(number) == roman
     }
-
 
     func convertIntegerToRoman(_ number: Int) -> String {
-
         let romanNumerals: [(value: Int, numeral: String)] = [
             (1000, "M"),
             (900, "CM"),
@@ -238,11 +228,9 @@ class ViewController: UIViewController {
 
         return result
     }
-
-
 }
 
-extension ViewController {
+private extension ViewController {
     func initialConfig(){
         view.addSubviews([headerLabel,romanNumberTF,calculateButton,responseLabel,saveToFavoritesButton])
     }
@@ -276,13 +264,3 @@ extension ViewController {
         ])
     }
 }
-
-
-extension UIView {
-    func addSubviews(_ views : [UIView]){
-        views.forEach { view in
-            self.addSubview(view)
-        }
-    }
-}
-
